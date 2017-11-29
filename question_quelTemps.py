@@ -1,11 +1,15 @@
 #!C:\Python27\python.exe
 #!/usr/bin/env python
+print "Content-type: text/html"
+print "<html><body>hello scritp</body></html>"
 import cgi,cgitb
 cgitb.enable()
 import sys
 import time
-
+from weather import Weather
 from naoqi import ALProxy
+
+
 
 def main(robotIP, behaviorName):
   # Create proxy to ALBehaviorManager
@@ -14,8 +18,9 @@ def main(robotIP, behaviorName):
   getBehaviors(managerProxy)
   launchAndStopBehavior(managerProxy, behaviorName)
   defaultBehaviors(managerProxy, behaviorName)
-  managerProxy = ALProxy("ALTextToSpeech", robotIP, 9559)
-  managerProxy.say("Bonjour, comment t'appelles-tu?")
+  time.sleep(2)
+  managerProxy = ALProxy("ALTextToSpeech", robotIP, 9559)        
+  managerProxy.say("Est-ce que tu sais quel temps il fait aujourd'hui")
   
   
 
@@ -41,7 +46,7 @@ def launchAndStopBehavior(managerProxy, behaviorName):
       # Launch behavior. This is a blocking call, use post if you do not
       # want to wait for the behavior to finish.
       managerProxy.post.runBehavior(behaviorName)
-      #time.sleep(5)
+      time.sleep(0)
     else:
       print "Behavior is already running."
 
@@ -88,7 +93,7 @@ def defaultBehaviors(managerProxy, behaviorName):
 
 
 if __name__ == "__main__":
-    main("169.254.189.104","Stand/Gestures/Hey_3")
+    main("192.168.43.177","Stand/Reactions/EthernetOn_1")
     if (len(sys.argv) < 3):
         print "Usage python albehaviormanager_example.py robotIP behaviorName"
     sys.exit(1)

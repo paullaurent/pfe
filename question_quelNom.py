@@ -4,7 +4,7 @@ import cgi,cgitb
 cgitb.enable()
 import sys
 import time
-import datetime
+
 from naoqi import ALProxy
 
 def main(robotIP, behaviorName):
@@ -15,23 +15,7 @@ def main(robotIP, behaviorName):
   launchAndStopBehavior(managerProxy, behaviorName)
   defaultBehaviors(managerProxy, behaviorName)
   managerProxy = ALProxy("ALTextToSpeech", robotIP, 9559)
-  now=datetime.datetime.today()
-
-  if (now.weekday()==0):
-      phrase="AH oui ! Aujourd'hui c'est lundi"
-  elif (now.weekday()==1):
-      phrase="AH oui ! Aujourd'hui c'est mardi"
-  elif (now.weekday()==2):
-      phrase="AH oui ! Aujourd'hui c'est mercredi"
-  elif (now.weekday()==3):
-      phrase="AH oui ! Aujourd'hui c'est jeudi"
-  elif (now.weekday()==4):
-      phrase="AH oui ! Aujourd'hui c'est vendredi"
-  elif (now.weekday()==5):
-      phrase="AH oui ! Aujourd'hui c'est samedi"
-  else:
-      phrase="AH oui ! Aujourd'hui c'est Dimanche"
-  managerProxy.say(phrase)
+  managerProxy.say("Bonjour, comment t'appelles-tu?")
   
   
 
@@ -57,7 +41,7 @@ def launchAndStopBehavior(managerProxy, behaviorName):
       # Launch behavior. This is a blocking call, use post if you do not
       # want to wait for the behavior to finish.
       managerProxy.post.runBehavior(behaviorName)
-      time.sleep(0)
+      #time.sleep(5)
     else:
       print "Behavior is already running."
 
@@ -104,7 +88,7 @@ def defaultBehaviors(managerProxy, behaviorName):
 
 
 if __name__ == "__main__":
-    main("192.168.43.177","Stand/Gestures/Explain_7")
+    main("192.168.43.177","Stand/Gestures/Hey_3")
     if (len(sys.argv) < 3):
         print "Usage python albehaviormanager_example.py robotIP behaviorName"
     sys.exit(1)

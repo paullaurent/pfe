@@ -15,7 +15,7 @@ def main(robotIP, behaviorName):
   launchAndStopBehavior(managerProxy, behaviorName)
   defaultBehaviors(managerProxy, behaviorName)
   managerProxy = ALProxy("ALTextToSpeech", robotIP, 9559)
-  managerProxy.say("C'est genial ! Moi j'ai aitai fabriquai en 2008")
+  managerProxy.say("Moi j'ai aitai fabriquai en 2008")
   
   
 
@@ -88,7 +88,7 @@ def defaultBehaviors(managerProxy, behaviorName):
 
 
 if __name__ == "__main__":
-    main("169.254.189.104","Stand/Gestures/Me_7")
+    main("192.168.43.177","Stand/Gestures/Me_7")
     if (len(sys.argv) < 3):
         print "Usage python albehaviormanager_example.py robotIP behaviorName"
     sys.exit(1)
