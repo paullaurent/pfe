@@ -1,21 +1,26 @@
 #!C:\Python27\python.exe
 #!/usr/bin/env python
-#-*- coding: utf-8 -*-
 import cgi,cgitb
 cgitb.enable()
 import sys
 import time
+
 from naoqi import ALProxy
+
 
 def main(robotIP, behaviorName):
   # Create proxy to ALBehaviorManager
-  managerProxy = ALProxy("ALBehaviorManager", robotIP, 9559)
+    managerProxy = ALProxy("ALBehaviorManager", robotIP, 9559)
 
-  getBehaviors(managerProxy)
-  launchAndStopBehavior(managerProxy, behaviorName)
-  defaultBehaviors(managerProxy, behaviorName)
-  managerProxy = ALProxy("ALTextToSpeech", robotIP, 9559)
-  managerProxy.say("Moi j'ai aitai fabriquai en 2008")
+    getBehaviors(managerProxy)
+    launchAndStopBehavior(managerProxy, behaviorName)
+    defaultBehaviors(managerProxy, behaviorName)
+    managerProxy = ALProxy("ALTextToSpeech", robotIP, 9559)
+    if masculin:
+        managerProxy.say("Montres moi un" +nomObjet)
+    else:
+        managerProxy.say("Montres moi une" +nomObjet)
+ 
   
   
 
@@ -41,7 +46,7 @@ def launchAndStopBehavior(managerProxy, behaviorName):
       # Launch behavior. This is a blocking call, use post if you do not
       # want to wait for the behavior to finish.
       managerProxy.post.runBehavior(behaviorName)
-      time.sleep(0)
+      #time.sleep(5)
     else:
       print "Behavior is already running."
 
@@ -88,9 +93,10 @@ def defaultBehaviors(managerProxy, behaviorName):
 
 
 if __name__ == "__main__":
-    form = cgi.FieldStorage()
-    searchterm =  form.getvalue('IPNAO')
-    main(searchterm,"Stand/Gestures/Me_7")
+    masculin= False
+    nomObjet="trousse"
+    main("169.254.189.104","Stand/Gestures/You_3")
+
     if (len(sys.argv) < 3):
         print "Usage python albehaviormanager_example.py robotIP behaviorName"
     sys.exit(1)

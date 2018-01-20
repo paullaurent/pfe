@@ -22,8 +22,8 @@ count=1
 res=""
 period = 2
 moduleName = "pythonModule"
-NAO_IP = "169.254.189.104"  # Replace here with your NaoQi's IP address.
-PC_IP = "192.168.23.136"   # Replace here with your computer IP address
+NAO_IP = "192.168.43.116"  # Replace here with your NaoQi's IP address.
+PC_IP = "192.168.43.113"   # Replace here with your computer IP address
 PORT = 9559
 memValue = "PictureDetected" # ALMemory variable where the ALVisionRecognition module outputs its results.
 
