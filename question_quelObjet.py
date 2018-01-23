@@ -8,7 +8,7 @@ import time
 from naoqi import ALProxy
 
 
-def main(robotIP, behaviorName):
+def main(robotIP, behaviorName, nomobjet,masculin):
   # Create proxy to ALBehaviorManager
     managerProxy = ALProxy("ALBehaviorManager", robotIP, 9559)
 
@@ -93,9 +93,14 @@ def defaultBehaviors(managerProxy, behaviorName):
 
 
 if __name__ == "__main__":
-    masculin= False
-    nomObjet="trousse"
-    main("169.254.189.104","Stand/Gestures/You_3")
+    form = cgi.FieldStorage()
+    IPNAO =  form.getvalue('IPNAO')
+    nomObjet=form.getvalue('nomObjet')
+    if (form.getvalue('masculin')=="true"):
+      masculin=True
+    else:
+      masculin=False
+    main(IPNAO,"Stand/Gestures/You_3",nomObjet,masculin)
 
     if (len(sys.argv) < 3):
         print "Usage python albehaviormanager_example.py robotIP behaviorName"

@@ -1,43 +1,32 @@
 #!C:\Python27\python.exe
 #!/usr/bin/env python
-print "Content-type: text/html"
-
-print "<html><body></body></html>"
 import cgi,cgitb
 cgitb.enable()
 import sys
 import time
-from weather import Weather
+
 from naoqi import ALProxy
 
 
-
-def main(robotIP, behaviorName):
+def main(robotIP,correct):
   # Create proxy to ALBehaviorManager
-  managerProxy = ALProxy("ALBehaviorManager", robotIP, 9559)
+    
+    speechProxy = ALProxy("ALTextToSpeech", robotIP, 9559)
+    behaviorProxy=ALProxy("ALBehaviorManager", robotIP, 9559)
+    if correct:
+        behaviorName="Stand/Emotions/Positive/Happy_1"
+        getBehaviors(behaviorProxy)
+        launchAndStopBehavior(behaviorProxy, behaviorName)
+        defaultBehaviors(behaviorProxy, behaviorName)
+        speechProxy.say("Oui c\'est bien ça !! ")
 
-  getBehaviors(managerProxy)
-  launchAndStopBehavior(managerProxy, behaviorName)
-  defaultBehaviors(managerProxy, behaviorName)
-  managerProxy = ALProxy("ALTextToSpeech", robotIP, 9559)
-  weather = Weather()
-  location = weather.lookup_by_location('tours')
-  condition = location.condition()
-  print(condition.text())
-  if (condition.text()=="Sunny" or condition.text()=="Clear"):
-    phrase="Aujourd'hui il fait trai beau"
-  elif(condition.text()=="Cloudy" or condition.text()=="Partly cloudy" or condition.text()=="Mostly cloudy"):
-      phrase="Aujourd'hui le ciel est couvert"
-  elif(condition.text()=="Showers" or condition.text()=="Scattered showers"):
-      phrase="Aujourd'hui il pleut"
-  elif(condition.text()=="Windy"):
-      phrase="Aujourd'hui il y a beaucoup de vent"
-  elif(condition.text()=="Smoky" or condition.text()=="Foggy" ):
-      phrase="Aujourd'hui il y a du brouillard"
-  else:
-      phrase="Aujourd'hui le temps est vraiment incertain"
-        
-  managerProxy.say(phrase)
+    else:
+        behaviorName="Stand/Reactions/SeeColor_1"
+        getBehaviors(behaviorProxy)
+        launchAndStopBehavior(behaviorProxy, behaviorName)
+        defaultBehaviors(behaviorProxy, behaviorName)
+        speechProxy.say("Hum je ne suis pas sur que ce soit celui-ci ")
+ 
   
   
 
@@ -63,7 +52,7 @@ def launchAndStopBehavior(managerProxy, behaviorName):
       # Launch behavior. This is a blocking call, use post if you do not
       # want to wait for the behavior to finish.
       managerProxy.post.runBehavior(behaviorName)
-      time.sleep(0)
+      #time.sleep(5)
     else:
       print "Behavior is already running."
 
@@ -112,9 +101,14 @@ def defaultBehaviors(managerProxy, behaviorName):
 if __name__ == "__main__":
     form = cgi.FieldStorage()
     IPNAO =  form.getvalue('IPNAO')
-    main(IPNAO,"Stand/Gestures/This_2")
+    if (form.getvalue('correct')=="true"):
+      correct=True
+    else:
+      correct=False
+    main(IPNAO,correct)
+
     if (len(sys.argv) < 3):
         print "Usage python albehaviormanager_example.py robotIP behaviorName"
     sys.exit(1)
 
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2]) 

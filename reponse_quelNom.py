@@ -88,7 +88,10 @@ def defaultBehaviors(managerProxy, behaviorName):
 
 
 if __name__ == "__main__":
-    main("192.168.43.177","Stand/Gestures/Me_7")
+  
+    form = cgi.FieldStorage()
+    IPNAO =  form.getvalue('IPNAO')
+    main(IPNAO,"Stand/Gestures/Me_7")
     if (len(sys.argv) < 3):
         print "Usage python albehaviormanager_example.py robotIP behaviorName"
     sys.exit(1)

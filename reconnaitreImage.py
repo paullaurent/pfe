@@ -4,18 +4,9 @@
 import cgi,cgitb
 cgitb.enable()
 import sys
-import time
 from naoqi import ALProxy
 import os
 import time
-import naoqi
-from naoqi import *
-
-import os
-import sys
-import time
-import naoqi
-from naoqi import *
 
 
 count=1

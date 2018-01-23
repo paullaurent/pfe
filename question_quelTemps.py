@@ -1,8 +1,5 @@
 #!C:\Python27\python.exe
 #!/usr/bin/env python
-print "Content-type: text/html"
-print
-print "<html><body></body></html>"
 
 import cgi,cgitb
 cgitb.enable()
@@ -96,8 +93,8 @@ def defaultBehaviors(managerProxy, behaviorName):
 
 if __name__ == "__main__":
     form = cgi.FieldStorage()
-    searchterm =  form.getvalue('IPNAO')
-    main(searchterm,"Stand/Reactions/EthernetOn_1")
+    IPNAO =  form.getvalue('IPNAO')
+    main(IPNAO,"Stand/Reactions/EthernetOn_1")
     if (len(sys.argv) < 3):
         print "Usage python albehaviormanager_example.py robotIP behaviorName"
     sys.exit(1)
