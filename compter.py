@@ -1,27 +1,34 @@
 #!C:\Python27\python.exe
 #!/usr/bin/env python
-import cgi,cgitb
+# -*- coding: UTF-8 -*-
+
+# enable debugging
+import cgi
+import cgitb
 cgitb.enable()
-import sys
-import time
+
+print "Content-Type: text/plain;charset=utf-8"
+print
 
 from naoqi import ALProxy
-
+import time
+import sys
 def main(robotIP, behaviorName,nbObjets,masculin,nomObjet):
   # Create proxy to ALBehaviorManager
 
-    speechProxy = ALProxy("ALTextToSpeech", robotIP, 9559)
-    behaviorProxy = ALProxy("ALBehaviorManager", robotIP, 9559)
-    getBehaviors(behaviorProxy)
-    launchAndStopBehavior(behaviorProxy, behaviorName)
-    defaultBehaviors(behaviorProxy, behaviorName)
+    #speechProxy = ALProxy("ALTextToSpeech", robotIP, 9559)
+    managerProxy = ALProxy("ALBehaviorManager", robotIP, 9559)
+    launchAndStopBehavior(managerProxy, behaviorName)
+    defaultBehaviors(managerProxy, behaviorName)
     managerProxy = ALProxy("ALTextToSpeech", robotIP, 9559)
     
     if (nbObjets==0):
         if masculin:
-            managerProxy.say("Un"+nomObjet)
+            managerProxy.say("Un"+ nomObjet)
+        else:
+            managerProxy.say("Une"+ nomObjet)
     else:
-        managerProxy.say(str(nbObjets)+nomObjet)
+        managerProxy.say(str(nbObjets)+ nomObjet)
         
     
         
@@ -50,7 +57,7 @@ def launchAndStopBehavior(managerProxy, behaviorName):
       # Launch behavior. This is a blocking call, use post if you do not
       # want to wait for the behavior to finish.
       managerProxy.post.runBehavior(behaviorName)
-      #time.sleep(0)
+      time.sleep(0)
     else:
       print "Behavior is already running."
 
@@ -97,12 +104,17 @@ def defaultBehaviors(managerProxy, behaviorName):
 
 
 if __name__ == "__main__":
-    nbObjets=5
-    masculin=True
-    nomObjet="Stylo"
-    main("169.254.189.104","Stand/Gestures/CountOne_1",nbObjets,masculin,nomObjet)
+    form = cgi.FieldStorage()
+    IPNAO =  form.getvalue('IPNAO')
+    nbObjets=form.getvalue('nbObjets')
+    nomObjet=form.getvalue('nomObjet')
+    if form.getvalue('masculin')=="true":
+      masculin=True
+    else:
+      masculin=False
+    main(IPNAO,"Stand/Gestures/CountOne_1",nbObjets,masculin,nomObjet)
     if (len(sys.argv) < 3):
         print "Usage python albehaviormanager_example.py robotIP behaviorName"
-    #sys.exit(1)
+    sys.exit(1)
 
-    #main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1],sys.argv[2])

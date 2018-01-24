@@ -1,10 +1,12 @@
-# -*- encoding: UTF-8 -*-
 #!C:\Python27\python.exe
+# -*- encoding: UTF-8 -*-
 #!/usr/bin/env python
 import cgi,cgitb
-cgitb.enable()
-import sys
+cgitb.enable() 
+print "Content-Type: text/plain;charset=utf-8"
+print
 
+import sys
 import almath
 import motion
 import argparse
@@ -12,8 +14,10 @@ import time
 from naoqi import ALProxy
 
 def main(robotIP, PORT=9559):
+    
     motionProxy  = ALProxy("ALMotion", robotIP, PORT)
     postureProxy = ALProxy("ALRobotPosture", robotIP, PORT)
+
     # Wake up robot
     motionProxy.wakeUp()
 
@@ -53,7 +57,7 @@ def main(robotIP, PORT=9559):
     effectorList.append("Torso")
     currentPos = motionProxy.getPosition("Torso", frame, useSensorValues)
     targetPos  = almath.Position6D(currentPos)
-    targetPos.z -= 0.08
+    targetPos.z -= 0.07
     targetPos.wy-=0.1
     pathList.append(list(targetPos.toVector()))
     handName  = 'LHand'
@@ -72,7 +76,7 @@ def main(robotIP, PORT=9559):
     effectorList.append("Torso")
     currentPos = motionProxy.getPosition("Torso", frame, useSensorValues)
     targetPos  = almath.Position6D(currentPos)
-    targetPos.z += 0.08
+    targetPos.z += 0.07
     pathList.append(list(targetPos.toVector()))
 
     
@@ -85,7 +89,7 @@ def main(robotIP, PORT=9559):
     motionProxy.positionInterpolations(effectorList, frame, pathList,
                               axisMaskList, timeList)
 
-    
+     
     
     #déposer le stylo
 
@@ -116,10 +120,11 @@ def main(robotIP, PORT=9559):
     motionProxy.openHand(handName)
 
 
-     #Go to rest position
+    #Go to rest position
     postureProxy.goToPosture("StandInit", 0.5)
 
 if __name__ == "__main__":
+
     form = cgi.FieldStorage()
     IPNAO =  form.getvalue('IPNAO')
     main(IPNAO,9559)

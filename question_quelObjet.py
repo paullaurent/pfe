@@ -1,4 +1,5 @@
 #!C:\Python27\python.exe
+# -*- encoding: UTF-8 -*-
 #!/usr/bin/env python
 import cgi,cgitb
 cgitb.enable()
@@ -8,7 +9,7 @@ import time
 from naoqi import ALProxy
 
 
-def main(robotIP, behaviorName, nomobjet,masculin):
+def main(robotIP, behaviorName, nomObjet,masculin):
   # Create proxy to ALBehaviorManager
     managerProxy = ALProxy("ALBehaviorManager", robotIP, 9559)
 

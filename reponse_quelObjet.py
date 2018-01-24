@@ -1,4 +1,5 @@
 #!C:\Python27\python.exe
+# -*- encoding: UTF-8 -*-
 #!/usr/bin/env python
 import cgi,cgitb
 cgitb.enable()
@@ -10,7 +11,7 @@ from naoqi import ALProxy
 
 def main(robotIP,correct):
   # Create proxy to ALBehaviorManager
-    
+    behaviorName="Stand/Emotions/Positive/Happy_1"
     speechProxy = ALProxy("ALTextToSpeech", robotIP, 9559)
     behaviorProxy=ALProxy("ALBehaviorManager", robotIP, 9559)
     if correct:
@@ -18,7 +19,7 @@ def main(robotIP,correct):
         getBehaviors(behaviorProxy)
         launchAndStopBehavior(behaviorProxy, behaviorName)
         defaultBehaviors(behaviorProxy, behaviorName)
-        speechProxy.say("Oui c\'est bien ça !! ")
+        speechProxy.say("Oui c\'est bien sa !! ")
 
     else:
         behaviorName="Stand/Reactions/SeeColor_1"
@@ -101,14 +102,16 @@ def defaultBehaviors(managerProxy, behaviorName):
 if __name__ == "__main__":
     form = cgi.FieldStorage()
     IPNAO =  form.getvalue('IPNAO')
+
     if (form.getvalue('correct')=="true"):
       correct=True
     else:
       correct=False
-    main(IPNAO,correct)
 
+    main(IPNAO,correct)
     if (len(sys.argv) < 3):
         print "Usage python albehaviormanager_example.py robotIP behaviorName"
     sys.exit(1)
+    
 
-    main(sys.argv[1], sys.argv[2]) 
+    main(sys.argv[1], sys.argv[2])

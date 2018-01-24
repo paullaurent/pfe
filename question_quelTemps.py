@@ -1,4 +1,5 @@
 #!C:\Python27\python.exe
+# -*- encoding: UTF-8 -*-
 #!/usr/bin/env python
 
 import cgi,cgitb
