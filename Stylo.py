@@ -23,7 +23,6 @@ def main(robotIP, PORT=9559):
 
     # Send robot to Pose Init
     postureProxy.goToPosture("StandInit", 0.5)
-
     # Example showing how to use positionInterpolations
     frame = motion.FRAME_ROBOT
     useSensorValues = False
@@ -57,7 +56,7 @@ def main(robotIP, PORT=9559):
     effectorList.append("Torso")
     currentPos = motionProxy.getPosition("Torso", frame, useSensorValues)
     targetPos  = almath.Position6D(currentPos)
-    targetPos.z -= 0.07
+    targetPos.z -= 0.06
     targetPos.wy-=0.1
     pathList.append(list(targetPos.toVector()))
     handName  = 'LHand'
@@ -66,7 +65,6 @@ def main(robotIP, PORT=9559):
                                  axisMaskList, timeList)
 
     motionProxy.closeHand(handName) 
-    
     # se redresser et déposer le stylo
     axisMaskList = [motion.AXIS_MASK_ALL,motion.AXIS_MASK_ALL]
     timeList    = [[2.0],[2.0]] # seconds
@@ -76,7 +74,7 @@ def main(robotIP, PORT=9559):
     effectorList.append("Torso")
     currentPos = motionProxy.getPosition("Torso", frame, useSensorValues)
     targetPos  = almath.Position6D(currentPos)
-    targetPos.z += 0.07
+    targetPos.z += 0.06
     pathList.append(list(targetPos.toVector()))
 
     
